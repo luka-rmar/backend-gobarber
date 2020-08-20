@@ -9,9 +9,9 @@ export default {
     destination: tmpPathDefault,
     filename: (req, file, callback) => {
       const fileHashed = randomBytes(10).toString('HEX');
-      const fileaName = `${fileHashed}-${file.originalname}`;
+      const fileName = `${fileHashed}-${file.originalname}`;
 
-      callback(null, fileaName);
+      callback(null, fileName);
     },
   }),
 };
