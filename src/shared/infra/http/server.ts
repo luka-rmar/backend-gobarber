@@ -2,12 +2,13 @@ import 'reflect-metadata';
 
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
+
 import routes from './routes';
+import AppErros from '../../errors/AppErros';
 import uploadConfig from '../../../config/upload';
 
 import '@shared/infra/typeorm';
 import '@shared/container';
-import AppErros from '../../errors/AppErros';
 
 const app = express();
 

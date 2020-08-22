@@ -1,4 +1,3 @@
-import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { injectable, inject } from 'tsyringe';
 
@@ -6,6 +5,7 @@ import AppErros from '@shared/errors/AppErros';
 import Users from '../infra/typeorm/entities/Users';
 import authConfig from '../../../config/auth';
 import IUsersRepository from '../repositories/IUsersRepository';
+import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
 interface IRequestRun {
   email: string;
@@ -22,6 +22,9 @@ class CreateSessionsService {
   constructor(
     @inject('UsersRepository')
     private userRepository: IUsersRepository,
+
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
   ) {}
 
   public async run({ email, password }: IRequestRun): Promise<IResponseRun> {
@@ -33,7 +36,10 @@ class CreateSessionsService {
 
     const { expiresIn, sercret } = authConfig.jwt;
 
-    const passwordMatched = await compare(password, user.password);
+    const passwordMatched = await this.hashProvider.compareHash(
+      password,
+      user.password,
+    );
 
     if (!passwordMatched) {
       throw new AppErros('Incorrect email/password combination.');
