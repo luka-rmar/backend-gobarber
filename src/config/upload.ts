@@ -4,7 +4,8 @@ import { randomBytes } from 'crypto';
 
 const tmpPathDefault = resolve(__dirname, '..', '..', 'tmp');
 export default {
-  directory: tmpPathDefault,
+  tmpPathDefault,
+  uploadFolder: resolve(tmpPathDefault, 'upload'),
   storage: multer.diskStorage({
     destination: tmpPathDefault,
     filename: (req, file, callback) => {

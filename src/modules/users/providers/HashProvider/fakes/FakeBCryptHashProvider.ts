@@ -4,11 +4,13 @@ import IHashProvider from '../models/IHashProvider';
 
 class BCryptHashProvider implements IHashProvider {
   public async generateHash(payload: string): Promise<string> {
-    return hash(payload, 8);
+    const hashed = await hash(payload, 8);
+    return hashed;
   }
 
   public async compareHash(payload: string, hashed: string): Promise<boolean> {
-    return compare(payload, hashed);
+    const result = await compare(payload, hashed);
+    return result;
   }
 }
 
