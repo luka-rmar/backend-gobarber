@@ -14,7 +14,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/files', express.static(uploadConfig.directory));
+app.use('/files', express.static(uploadConfig.uploadFolder));
 
 // O routes se torna um middleware, por isso passamos dentro o app.use. Assim a rota funciona
 app.use(routes);
@@ -26,9 +26,7 @@ app.use((err: Error, req: Request, res: Response, _: NextFunction) => {
       .json({ status: 'error', message: err.message });
   }
 
-  return res
-    .status(500)
-    .json({ status: 'error', message: 'Internal server error' });
+  return res.status(500).json({ status: err.name, message: err.message });
 });
 
 app.listen(3000, () => {
